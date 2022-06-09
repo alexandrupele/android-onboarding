@@ -2,15 +2,17 @@ package rdx.works.wallet.core
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.PublishSubject
+import org.koin.androidx.scope.ScopeActivity
 import rdx.works.wallet.core.mvvm.UiEvent
 
-abstract class RadixActivity : AppCompatActivity() {
+abstract class RadixActivity : ScopeActivity() {
 
-    val uiEvents: Observable<UiEvent> get() = uiEvents.hide()
+    private val logger by lazy { Logger("RadixActivity") }
+
+    val uiEvents: Observable<UiEvent> get() = oneShotUiEvents.hide()
 
     private val oneShotUiEvents = PublishSubject.create<UiEvent>()
     private val viewUiEventDisposables = CompositeDisposable()
@@ -44,7 +46,11 @@ abstract class RadixActivity : AppCompatActivity() {
 
     private fun registerViewUiEventGenerators(generators: Array<Observable<out UiEvent>>) {
         for (generator in generators) {
-            val disposable = generator.subscribe { event -> manuallyEmitUiEvent(event) }
+            val disposable = generator.subscribe {
+                    event ->
+                logger.debug("new event")
+                manuallyEmitUiEvent(event)
+            }
             viewUiEventDisposables.addAll(disposable)
         }
     }

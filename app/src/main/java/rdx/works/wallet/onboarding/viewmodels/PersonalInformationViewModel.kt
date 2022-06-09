@@ -11,16 +11,26 @@ class PersonalInformationViewModel {
 
     val continueButtonEnabled = ObservableBoolean()
 
-    fun setFirstName(firstName: String) {
+    fun setFirstName(firstName: CharSequence) {
         this.firstName.set(firstName)
-        enableContinueButtonIfPossible()
+        enableOrDisableContinueButton()
     }
 
-    private fun enableContinueButtonIfPossible() {
-        continueButtonEnabled.set(
-            firstName.get()?.isNotEmpty() == true
-                    && lastName.get()?.isNotEmpty() == true
-                    && phoneNumber.get()?.isNotEmpty() == true
-        )
+    fun setLastName(lastName: CharSequence) {
+        this.lastName.set(lastName)
+        enableOrDisableContinueButton()
+    }
+
+    fun setPhoneNumber(phoneNumber: CharSequence) {
+        this.phoneNumber.set(phoneNumber)
+        enableOrDisableContinueButton()
+    }
+
+    private fun enableOrDisableContinueButton() {
+        val canContinue = firstName.get()?.isNotEmpty() == true
+                && lastName.get()?.isNotEmpty() == true
+                && phoneNumber.get()?.isNotEmpty() == true
+
+        continueButtonEnabled.set(canContinue)
     }
 }

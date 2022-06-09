@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="model"
+            type="rdx.works.wallet.onboarding.viewmodels.PersonalInformationViewModel" />
+    </data>
+
     <ScrollView
         android:id="@+id/rootView"
         android:layout_width="match_parent"
@@ -27,7 +34,8 @@
                     android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@{model.firstName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -39,7 +47,8 @@
                     android:id="@+id/lastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@{model.lastName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -50,9 +59,19 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneNumber"
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:text="@{model.phoneNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/continueButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:enabled="@{model.continueButtonEnabled}"
+                android:text="Continue" />
         </LinearLayout>
     </ScrollView>
 </layout>

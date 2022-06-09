@@ -1,8 +1,8 @@
 package rdx.works.wallet.onboarding.presenters
 
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import rdx.works.wallet.R
 import rdx.works.wallet.core.Logger
 import rdx.works.wallet.core.mvvm.DisposablePresenter
@@ -30,6 +30,20 @@ class PersonalInformationPresenter(
             .doOnNext {
                 viewModel.setFirstName(it.text)
             }
+            .subscribe()
+            .disposeWith(disposables)
+
+        uiEvents
+            .ofType(TextViewAfterChangeEvent::class.java)
+            .filter { it.viewId == R.id.lastName }
+            .doOnNext { viewModel.setLastName(it.text) }
+            .subscribe()
+            .disposeWith(disposables)
+
+        uiEvents
+            .ofType(TextViewAfterChangeEvent::class.java)
+            .filter { it.viewId == R.id.phoneNumber }
+            .doOnNext { viewModel.setPhoneNumber(it.text) }
             .subscribe()
             .disposeWith(disposables)
     }
