@@ -12,10 +12,10 @@ class ViewClickOnSubscribe(val view: View) : ObservableOnSubscribe<ViewClickEven
         view.setOnClickListener { emitter.onNext(ViewClickEvent(it.id)) }
 
         emitter.setDisposable(object : MainThreadDisposable() {
+
             override fun onDispose() {
                 view.setOnClickListener(null)
             }
-
         })
     }
 }

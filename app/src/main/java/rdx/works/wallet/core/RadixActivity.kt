@@ -10,8 +10,6 @@ import rdx.works.wallet.core.mvvm.UiEvent
 
 abstract class RadixActivity : ScopeActivity() {
 
-    private val logger by lazy { Logger("RadixActivity") }
-
     val uiEvents: Observable<UiEvent> get() = oneShotUiEvents.hide()
 
     private val oneShotUiEvents = PublishSubject.create<UiEvent>()
@@ -46,9 +44,7 @@ abstract class RadixActivity : ScopeActivity() {
 
     private fun registerViewUiEventGenerators(generators: Array<Observable<out UiEvent>>) {
         for (generator in generators) {
-            val disposable = generator.subscribe {
-                    event ->
-                logger.debug("new event")
+            val disposable = generator.subscribe { event ->
                 manuallyEmitUiEvent(event)
             }
             viewUiEventDisposables.addAll(disposable)

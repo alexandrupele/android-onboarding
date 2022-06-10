@@ -1,6 +1,5 @@
 package rdx.works.wallet.launcher.presenters
 
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
