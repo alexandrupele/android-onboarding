@@ -4,7 +4,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import rdx.works.wallet.dashboard.activities.DashboardActivity
-import rdx.works.wallet.dashboard.logic.SignOutPerformer
+import rdx.works.wallet.dashboard.utils.SignOutPerformer
 import rdx.works.wallet.dashboard.presenters.DashboardPresenter
 import rdx.works.wallet.dashboard.viewmodels.DashboardViewModel
 

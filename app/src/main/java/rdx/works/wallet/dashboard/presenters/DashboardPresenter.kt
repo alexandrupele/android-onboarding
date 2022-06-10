@@ -13,7 +13,7 @@ import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.rx.toObservable
 import rdx.works.wallet.core.user.UserRepository
 import rdx.works.wallet.dashboard.events.SignOutEvent
-import rdx.works.wallet.dashboard.logic.SignOutPerformer
+import rdx.works.wallet.dashboard.utils.SignOutPerformer
 import rdx.works.wallet.dashboard.viewmodels.DashboardViewModel
 import rdx.works.wallet.launcher.actions.GoToOnboardingAction
 

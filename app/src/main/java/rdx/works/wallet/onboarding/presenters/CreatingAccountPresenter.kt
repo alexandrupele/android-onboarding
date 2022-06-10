@@ -10,7 +10,7 @@ import rdx.works.wallet.core.mvvm.DisposablePresenter
 import rdx.works.wallet.core.mvvm.PresenterAction
 import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.onboarding.actions.GoToDashboardAction
-import rdx.works.wallet.onboarding.logic.CreateAccountPerformer
+import rdx.works.wallet.onboarding.utils.CreateAccountPerformer
 import java.util.concurrent.TimeUnit
 
 private const val FAKE_LOADING_TIME_IN_SECONDS = 2L

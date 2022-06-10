@@ -4,7 +4,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import rdx.works.wallet.onboarding.activities.*
-import rdx.works.wallet.onboarding.logic.CreateAccountPerformer
+import rdx.works.wallet.onboarding.utils.CreateAccountPerformer
 import rdx.works.wallet.onboarding.presenters.*
 import rdx.works.wallet.onboarding.repo.OnboardingRepository
 import rdx.works.wallet.onboarding.viewmodels.*

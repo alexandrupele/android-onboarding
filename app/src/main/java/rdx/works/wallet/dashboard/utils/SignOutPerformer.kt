@@ -1,4 +1,4 @@
-package rdx.works.wallet.dashboard.logic
+package rdx.works.wallet.dashboard.utils
 
 import io.reactivex.rxjava3.core.Completable
 import rdx.works.wallet.core.session.SessionRepository
