@@ -2,6 +2,7 @@ package rdx.works.wallet.onboarding.viewmodels
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import rdx.works.wallet.onboarding.model.OnboardingData
 
 class PersonalInformationViewModel {
 
@@ -10,6 +11,12 @@ class PersonalInformationViewModel {
     val phoneNumber = ObservableField<CharSequence>()
 
     val continueButtonEnabled = ObservableBoolean()
+
+    fun loadScreenState(data: OnboardingData) {
+        data.firstName?.let { firstName.set(it) }
+        data.lastName?.let { lastName.set(it) }
+        data.phoneNumber?.let { phoneNumber.set(it) }
+    }
 
     fun setFirstName(firstName: CharSequence) {
         this.firstName.set(firstName)

@@ -12,18 +12,18 @@ import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.mvvm.uievents.TextChangeEvent
 import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
 import rdx.works.wallet.onboarding.repo.OnboardingRepository
-import rdx.works.wallet.onboarding.actions.GoToPinAction
-import rdx.works.wallet.onboarding.viewmodels.PersonalInformationViewModel
+import rdx.works.wallet.onboarding.actions.GoToPersonalInformationAction
+import rdx.works.wallet.onboarding.viewmodels.CredentialsViewModel
 
-class PersonalInformationPresenter(
+class CredentialsPresenter(
     private val uiEvents: Observable<UiEvent>,
     private val onboardingRepository: OnboardingRepository,
-    private val viewModel: PersonalInformationViewModel
+    private val viewModel: CredentialsViewModel
 ) : DisposablePresenter {
 
     private val disposables = CompositeDisposable()
     private val emitter = PublishSubject.create<PresenterAction>()
-    private val logger by lazy { Logger("PersonalInformationPresenter") }
+    private val logger by lazy { Logger("CredentialsPresenter") }
 
     val actions: Observable<PresenterAction> = emitter.hide()
 
@@ -40,10 +40,10 @@ class PersonalInformationPresenter(
         uiEvents
             .ofType(TextChangeEvent::class.java)
             .filter {
-                it.viewId == R.id.firstName
+                it.viewId == R.id.email
             }
             .doOnNext {
-                viewModel.setFirstName(it.text)
+                viewModel.setEmail(it.text)
             }
             .subscribe()
             .disposeWith(disposables)
@@ -51,21 +51,10 @@ class PersonalInformationPresenter(
         uiEvents
             .ofType(TextChangeEvent::class.java)
             .filter {
-                it.viewId == R.id.lastName
+                it.viewId == R.id.password
             }
             .doOnNext {
-                viewModel.setLastName(it.text)
-            }
-            .subscribe()
-            .disposeWith(disposables)
-
-        uiEvents
-            .ofType(TextChangeEvent::class.java)
-            .filter {
-                it.viewId == R.id.phoneNumber
-            }
-            .doOnNext {
-                viewModel.setPhoneNumber(it.text)
+                viewModel.setPassword(it.text)
             }
             .subscribe()
             .disposeWith(disposables)
@@ -76,14 +65,12 @@ class PersonalInformationPresenter(
                 it.viewId == R.id.continueButton
             }
             .flatMapCompletable {
-                onboardingRepository
-                    .storePersonalInformation(
-                        firstName = viewModel.firstName.get().toString(),
-                        lastName = viewModel.lastName.get().toString(),
-                        phoneNumber = viewModel.phoneNumber.get().toString()
-                    ).doOnComplete {
-                        emitter.onNext(GoToPinAction())
-                    }
+                onboardingRepository.storeCredentials(
+                    email = viewModel.email.get().toString(),
+                    password = viewModel.password.get().toString()
+                ).doOnComplete {
+                    emitter.onNext(GoToPersonalInformationAction())
+                }
             }
             .subscribe()
             .disposeWith(disposables)

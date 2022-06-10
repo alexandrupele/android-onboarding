@@ -12,18 +12,18 @@ import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.mvvm.uievents.TextChangeEvent
 import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
 import rdx.works.wallet.onboarding.repo.OnboardingRepository
-import rdx.works.wallet.onboarding.actions.GoToPinAction
-import rdx.works.wallet.onboarding.viewmodels.PersonalInformationViewModel
+import rdx.works.wallet.onboarding.actions.GoToConfirmPinAction
+import rdx.works.wallet.onboarding.viewmodels.PinViewModel
 
-class PersonalInformationPresenter(
+class PinPresenter(
     private val uiEvents: Observable<UiEvent>,
     private val onboardingRepository: OnboardingRepository,
-    private val viewModel: PersonalInformationViewModel
+    private val viewModel: PinViewModel
 ) : DisposablePresenter {
 
     private val disposables = CompositeDisposable()
     private val emitter = PublishSubject.create<PresenterAction>()
-    private val logger by lazy { Logger("PersonalInformationPresenter") }
+    private val logger by lazy { Logger("PinPresenter") }
 
     val actions: Observable<PresenterAction> = emitter.hide()
 
@@ -40,32 +40,10 @@ class PersonalInformationPresenter(
         uiEvents
             .ofType(TextChangeEvent::class.java)
             .filter {
-                it.viewId == R.id.firstName
+                it.viewId == R.id.pin
             }
             .doOnNext {
-                viewModel.setFirstName(it.text)
-            }
-            .subscribe()
-            .disposeWith(disposables)
-
-        uiEvents
-            .ofType(TextChangeEvent::class.java)
-            .filter {
-                it.viewId == R.id.lastName
-            }
-            .doOnNext {
-                viewModel.setLastName(it.text)
-            }
-            .subscribe()
-            .disposeWith(disposables)
-
-        uiEvents
-            .ofType(TextChangeEvent::class.java)
-            .filter {
-                it.viewId == R.id.phoneNumber
-            }
-            .doOnNext {
-                viewModel.setPhoneNumber(it.text)
+                viewModel.setPin(it.text)
             }
             .subscribe()
             .disposeWith(disposables)
@@ -77,12 +55,9 @@ class PersonalInformationPresenter(
             }
             .flatMapCompletable {
                 onboardingRepository
-                    .storePersonalInformation(
-                        firstName = viewModel.firstName.get().toString(),
-                        lastName = viewModel.lastName.get().toString(),
-                        phoneNumber = viewModel.phoneNumber.get().toString()
-                    ).doOnComplete {
-                        emitter.onNext(GoToPinAction())
+                    .storePin(viewModel.pin.get().toString())
+                    .doOnComplete {
+                        emitter.onNext(GoToConfirmPinAction())
                     }
             }
             .subscribe()

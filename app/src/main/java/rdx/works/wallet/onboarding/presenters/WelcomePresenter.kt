@@ -11,6 +11,7 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
 import rdx.works.wallet.onboarding.actions.GoToPersonalInformationAction
+import rdx.works.wallet.onboarding.actions.GoToTermsOfServiceAction
 
 class WelcomePresenter(
     private val uiEvents: Observable<UiEvent>
@@ -29,7 +30,7 @@ class WelcomePresenter(
                 it.viewId == R.id.continueButton
             }
             .subscribe {
-                emitter.onNext(GoToPersonalInformationAction())
+                emitter.onNext(GoToTermsOfServiceAction())
             }
             .disposeWith(disposables)
     }

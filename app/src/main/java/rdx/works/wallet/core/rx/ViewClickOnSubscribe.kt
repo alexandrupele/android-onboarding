@@ -9,7 +9,6 @@ import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
 class ViewClickOnSubscribe(val view: View) : ObservableOnSubscribe<ViewClickEvent> {
 
     override fun subscribe(emitter: ObservableEmitter<ViewClickEvent>) {
-
         view.setOnClickListener { emitter.onNext(ViewClickEvent(it.id)) }
 
         emitter.setDisposable(object : MainThreadDisposable() {

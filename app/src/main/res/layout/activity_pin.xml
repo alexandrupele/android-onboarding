@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="model"
+            type="rdx.works.wallet.onboarding.viewmodels.PinViewModel" />
+    </data>
+
     <ScrollView
         android:id="@+id/rootView"
         android:layout_width="match_parent"
@@ -13,21 +20,30 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="@string/welcome_paragraph_1" />
+                android:text="@string/pin_paragraph" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/welcome_paragraph_2" />
+                android:hint="@string/pin_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword"
+                    android:text="@{model.pin}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/continueButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:enabled="@{model.continueButtonEnabled}"
                 android:text="@string/action_continue" />
         </LinearLayout>
     </ScrollView>

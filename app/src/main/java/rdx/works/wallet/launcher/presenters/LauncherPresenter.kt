@@ -1,4 +1,4 @@
-package rdx.works.wallet.launcher
+package rdx.works.wallet.launcher.presenters
 
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

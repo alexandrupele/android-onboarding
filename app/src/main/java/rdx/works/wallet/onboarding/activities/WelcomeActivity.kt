@@ -1,7 +1,6 @@
 package rdx.works.wallet.onboarding.activities
 
 import android.app.Activity
-import android.app.Person
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -14,7 +13,7 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.register
 import rdx.works.wallet.core.rx.click
 import rdx.works.wallet.databinding.ActivityWelcomeBinding
-import rdx.works.wallet.onboarding.actions.GoToPersonalInformationAction
+import rdx.works.wallet.onboarding.actions.GoToTermsOfServiceAction
 import rdx.works.wallet.onboarding.presenters.WelcomePresenter
 
 class WelcomeActivity : RadixActivity() {
@@ -36,6 +35,8 @@ class WelcomeActivity : RadixActivity() {
             register(lifecycle)
             actions.subscribe(::handlePresenterAction)
         }
+
+        setTitle(R.string.welcome_title)
     }
 
     override fun collectViewUiEventsGenerators(): Array<Observable<out UiEvent>> = arrayOf(
@@ -43,8 +44,8 @@ class WelcomeActivity : RadixActivity() {
     )
 
     private fun handlePresenterAction(action: PresenterAction) {
-        when(action) {
-            is GoToPersonalInformationAction -> PersonalInformationActivity.launch(this)
+        when (action) {
+            is GoToTermsOfServiceAction -> TermsOfServiceActivity.launch(this)
         }
     }
 

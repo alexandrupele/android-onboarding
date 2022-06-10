@@ -14,7 +14,7 @@
         android:theme="@style/Theme.RadixWallet">
 
         <activity
-            android:name=".launcher.LauncherActivity"
+            android:name=".launcher.activities.LauncherActivity"
             android:exported="true"
             android:screenOrientation="portrait">
 
@@ -25,11 +25,60 @@
         </activity>
 
         <activity
-            android:name=".onboarding.activities.PersonalInformationActivity"
+            android:name=".onboarding.activities.WelcomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".onboarding.activities.WelcomeActivity"
+            android:name=".onboarding.activities.PersonalInformationActivity"
+            android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".onboarding.activities.CredentialsActivity" />
+        </activity>
+
+        <activity
+            android:name=".onboarding.activities.TermsOfServiceActivity"
+            android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".onboarding.activities.WelcomeActivity" />
+        </activity>
+
+        <activity
+            android:name=".onboarding.activities.CredentialsActivity"
+            android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".onboarding.activities.TermsOfServiceActivity" />
+        </activity>
+
+        <activity
+            android:name=".onboarding.activities.PinActivity"
+            android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".onboarding.activities.PersonalInformationActivity" />
+        </activity>
+
+        <activity
+            android:name=".onboarding.activities.ConfirmPinActivity"
+            android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".onboarding.activities.PinActivity" />
+        </activity>
+
+        <activity
+            android:name=".onboarding.activities.CreatingAccountActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".dashboard.activities.DashboardActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

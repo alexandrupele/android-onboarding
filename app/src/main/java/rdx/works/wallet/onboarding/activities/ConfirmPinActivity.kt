@@ -13,22 +13,22 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.register
 import rdx.works.wallet.core.rx.changeEvents
 import rdx.works.wallet.core.rx.click
-import rdx.works.wallet.databinding.ActivityPersonalInformationBinding
-import rdx.works.wallet.onboarding.actions.GoToPinAction
-import rdx.works.wallet.onboarding.presenters.PersonalInformationPresenter
-import rdx.works.wallet.onboarding.viewmodels.PersonalInformationViewModel
+import rdx.works.wallet.databinding.ActivityConfirmPinBinding
+import rdx.works.wallet.onboarding.actions.GoToCreatingAccountAction
+import rdx.works.wallet.onboarding.presenters.ConfirmPinPresenter
+import rdx.works.wallet.onboarding.viewmodels.ConfirmPinViewModel
 
-class PersonalInformationActivity : RadixActivity() {
+class ConfirmPinActivity : RadixActivity() {
 
-    private lateinit var binding: ActivityPersonalInformationBinding
+    private lateinit var binding: ActivityConfirmPinBinding
 
-    private val presenter: PersonalInformationPresenter by scope.inject {
-        parametersOf(this@PersonalInformationActivity)
+    private val presenter: ConfirmPinPresenter by scope.inject {
+        parametersOf(this@ConfirmPinActivity)
     }
 
-    private val viewModel: PersonalInformationViewModel by scope.inject()
+    private val viewModel: ConfirmPinViewModel by scope.inject()
 
-    override fun getContentView() = R.layout.activity_personal_information
+    override fun getContentView() = R.layout.activity_confirm_pin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +41,24 @@ class PersonalInformationActivity : RadixActivity() {
             actions.subscribe(::handlePresenterAction)
         }
 
-        setTitle(R.string.personal_information_title)
+        setTitle(R.string.confirm_pin_title)
     }
 
     override fun collectViewUiEventsGenerators(): Array<Observable<out UiEvent>> = arrayOf(
-        binding.firstName.changeEvents(),
-        binding.lastName.changeEvents(),
-        binding.phoneNumber.changeEvents(),
+        binding.pin.changeEvents(),
         binding.continueButton.click()
     )
 
     private fun handlePresenterAction(action: PresenterAction) {
         when (action) {
-            is GoToPinAction -> PinActivity.launch(this)
+            is GoToCreatingAccountAction -> CreatingAccountActivity.launch(this)
         }
     }
 
     companion object {
 
         fun launch(activity: Activity) = activity.startActivity(
-            Intent(activity, PersonalInformationActivity::class.java)
+            Intent(activity, ConfirmPinActivity::class.java)
         )
     }
 }

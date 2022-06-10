@@ -13,22 +13,22 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.register
 import rdx.works.wallet.core.rx.changeEvents
 import rdx.works.wallet.core.rx.click
-import rdx.works.wallet.databinding.ActivityPersonalInformationBinding
-import rdx.works.wallet.onboarding.actions.GoToPinAction
-import rdx.works.wallet.onboarding.presenters.PersonalInformationPresenter
-import rdx.works.wallet.onboarding.viewmodels.PersonalInformationViewModel
+import rdx.works.wallet.databinding.ActivityCredentialsBinding
+import rdx.works.wallet.onboarding.actions.GoToPersonalInformationAction
+import rdx.works.wallet.onboarding.presenters.CredentialsPresenter
+import rdx.works.wallet.onboarding.viewmodels.CredentialsViewModel
 
-class PersonalInformationActivity : RadixActivity() {
+class CredentialsActivity : RadixActivity() {
 
-    private lateinit var binding: ActivityPersonalInformationBinding
+    private lateinit var binding: ActivityCredentialsBinding
 
-    private val presenter: PersonalInformationPresenter by scope.inject {
-        parametersOf(this@PersonalInformationActivity)
+    private val presenter: CredentialsPresenter by scope.inject {
+        parametersOf(this@CredentialsActivity)
     }
 
-    private val viewModel: PersonalInformationViewModel by scope.inject()
+    private val viewModel: CredentialsViewModel by scope.inject()
 
-    override fun getContentView() = R.layout.activity_personal_information
+    override fun getContentView() = R.layout.activity_credentials
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +41,25 @@ class PersonalInformationActivity : RadixActivity() {
             actions.subscribe(::handlePresenterAction)
         }
 
-        setTitle(R.string.personal_information_title)
+        setTitle(R.string.credentials_title)
     }
 
     override fun collectViewUiEventsGenerators(): Array<Observable<out UiEvent>> = arrayOf(
-        binding.firstName.changeEvents(),
-        binding.lastName.changeEvents(),
-        binding.phoneNumber.changeEvents(),
+        binding.email.changeEvents(),
+        binding.password.changeEvents(),
         binding.continueButton.click()
     )
 
     private fun handlePresenterAction(action: PresenterAction) {
         when (action) {
-            is GoToPinAction -> PinActivity.launch(this)
+            is GoToPersonalInformationAction -> PersonalInformationActivity.launch(this)
         }
     }
 
     companion object {
 
         fun launch(activity: Activity) = activity.startActivity(
-            Intent(activity, PersonalInformationActivity::class.java)
+            Intent(activity, CredentialsActivity::class.java)
         )
     }
 }

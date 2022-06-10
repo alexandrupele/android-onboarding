@@ -5,6 +5,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import rdx.works.wallet.core.RadixApplication
+import rdx.works.wallet.dashboard.di.provideDashboardModule
 import rdx.works.wallet.launcher.di.provideLauncherModule
 import rdx.works.wallet.onboarding.di.provideOnboardingModule
 
@@ -18,6 +19,7 @@ fun RadixApplication.setupKoin() {
         modules(
             listOf(
                 provideCoreModule(),
+                provideDashboardModule(),
                 provideLauncherModule(),
                 provideOnboardingModule()
             )
