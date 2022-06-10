@@ -27,5 +27,9 @@
         <activity
             android:name=".onboarding.activities.PersonalInformationActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".onboarding.activities.WelcomeActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
