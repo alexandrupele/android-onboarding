@@ -11,7 +11,7 @@ class DashboardViewModel(private val resources: Resources) {
 
     fun loadScreenState(user: User) {
         greeting.set(
-            resources.getString(R.string.dashboard_greeting, user.firstName)
+            resources.getString(R.string.dashboard_greeting, user.firstName, user.lastName)
         )
     }
 }

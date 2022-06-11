@@ -37,6 +37,6 @@
     <string name="creating_account_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
 
     <string name="dashboard_title">Dashboard</string>
-    <string name="dashboard_greeting">Welcome %1$s</string>
+    <string name="dashboard_greeting">Welcome %1$s %2$s</string>
     <string name="dashboard_menu_sign_out">Sign Out</string>
 </resources>
