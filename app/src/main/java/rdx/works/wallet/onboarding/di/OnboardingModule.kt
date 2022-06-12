@@ -7,6 +7,7 @@ import rdx.works.wallet.onboarding.activities.*
 import rdx.works.wallet.onboarding.utils.CreateAccountPerformer
 import rdx.works.wallet.onboarding.presenters.*
 import rdx.works.wallet.onboarding.repo.OnboardingRepository
+import rdx.works.wallet.onboarding.utils.EmailValidator
 import rdx.works.wallet.onboarding.viewmodels.*
 
 fun provideOnboardingModule() = module {
@@ -85,14 +86,15 @@ fun provideOnboardingModule() = module {
     scope(named<CredentialsActivity>()) {
 
         scoped {
-            CredentialsViewModel()
+            CredentialsViewModel(resources = androidContext().resources)
         }
 
         scoped { (activity: CredentialsActivity) ->
             CredentialsPresenter(
                 uiEvents = activity.uiEvents,
-                viewModel = get(),
-                onboardingRepository = get()
+                emailValidator = EmailValidator(),
+                onboardingRepository = get(),
+                viewModel = get()
             )
         }
     }

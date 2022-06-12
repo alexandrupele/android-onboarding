@@ -11,12 +11,14 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.mvvm.uievents.TextChangeEvent
 import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
-import rdx.works.wallet.onboarding.repo.OnboardingRepository
 import rdx.works.wallet.onboarding.actions.GoToPersonalInformationAction
+import rdx.works.wallet.onboarding.repo.OnboardingRepository
+import rdx.works.wallet.onboarding.utils.EmailValidator
 import rdx.works.wallet.onboarding.viewmodels.CredentialsViewModel
 
 class CredentialsPresenter(
     private val uiEvents: Observable<UiEvent>,
+    private val emailValidator: EmailValidator,
     private val onboardingRepository: OnboardingRepository,
     private val viewModel: CredentialsViewModel
 ) : DisposablePresenter {
@@ -44,6 +46,7 @@ class CredentialsPresenter(
             }
             .doOnNext {
                 viewModel.setEmail(it.text)
+                viewModel.clearEmailValidationError()
             }
             .subscribe()
             .disposeWith(disposables)
@@ -63,6 +66,11 @@ class CredentialsPresenter(
             .ofType(ViewClickEvent::class.java)
             .filter {
                 it.viewId == R.id.continueButton
+            }
+            .filter {
+                val isValidEmail = emailValidator.validateEmail(viewModel.email.get().toString())
+                if (!isValidEmail) viewModel.setEmailValidationError()
+                isValidEmail
             }
             .flatMapCompletable {
                 onboardingRepository.storeCredentials(

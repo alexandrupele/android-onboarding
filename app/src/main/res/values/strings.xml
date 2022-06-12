@@ -17,6 +17,7 @@
     <string name="credentials_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="credentials_hint_password">Password</string>
     <string name="credentials_hint_email">E-mail</string>
+    <string name="credentials_email_validation_error">Not a valid email address</string>
 
     <string name="personal_information_title">Personal Information</string>
     <string name="personal_information_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
@@ -31,7 +32,7 @@
     <string name="confirm_pin_title">Confirm PIN</string>
     <string name="confirm_pin_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="confirm_pin_hint">PIN</string>
-    <string name="confirm_pin_error">Pin not matching</string>
+    <string name="confirm_pin_error">Not matching the previous pin</string>
 
     <string name="creating_account_title">Creating account</string>
     <string name="creating_account_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
