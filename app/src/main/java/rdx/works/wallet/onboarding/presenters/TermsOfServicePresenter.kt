@@ -1,8 +1,10 @@
 package rdx.works.wallet.onboarding.presenters
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import rdx.works.wallet.R
 import rdx.works.wallet.core.Logger
@@ -12,8 +14,9 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.mvvm.uievents.CheckedChangeEvent
 import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
-import rdx.works.wallet.onboarding.repo.OnboardingRepository
+import rdx.works.wallet.core.rx.toObservable
 import rdx.works.wallet.onboarding.actions.GoToCredentialsAction
+import rdx.works.wallet.onboarding.repo.OnboardingRepository
 import rdx.works.wallet.onboarding.viewmodels.TermsOfServiceViewModel
 
 class TermsOfServicePresenter(
@@ -56,16 +59,16 @@ class TermsOfServicePresenter(
             .filter {
                 it.viewId == R.id.continueButton
             }
-            .flatMapCompletable {
+            .observeOn(Schedulers.io())
+            .flatMap {
                 onboardingRepository
                     .markTermsAsRead()
-                    .doOnComplete {
-                        emitter.onNext(GoToCredentialsAction())
-                    }
+                    .toObservable(GoToCredentialsAction())
             }
-            .subscribeBy(onError = {
-                logger.error("Could not navigate from terms of service", it)
-            })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(emitter::onNext) {
+                logger.error("Failed to continue from terms of service", it)
+            }
             .disposeWith(disposables)
     }
 

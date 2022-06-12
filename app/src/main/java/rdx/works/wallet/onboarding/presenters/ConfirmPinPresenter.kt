@@ -1,7 +1,9 @@
 package rdx.works.wallet.onboarding.presenters
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import rdx.works.wallet.R
 import rdx.works.wallet.core.Logger
@@ -11,8 +13,8 @@ import rdx.works.wallet.core.mvvm.UiEvent
 import rdx.works.wallet.core.mvvm.disposeWith
 import rdx.works.wallet.core.mvvm.uievents.TextChangeEvent
 import rdx.works.wallet.core.mvvm.uievents.ViewClickEvent
-import rdx.works.wallet.onboarding.repo.OnboardingRepository
 import rdx.works.wallet.onboarding.actions.GoToCreatingAccountAction
+import rdx.works.wallet.onboarding.repo.OnboardingRepository
 import rdx.works.wallet.onboarding.viewmodels.ConfirmPinViewModel
 
 class ConfirmPinPresenter(
@@ -23,7 +25,7 @@ class ConfirmPinPresenter(
 
     private val disposables = CompositeDisposable()
     private val emitter = PublishSubject.create<PresenterAction>()
-    private val logger by lazy { Logger("PinPresenter") }
+    private val logger by lazy { Logger("ConfirmPinPresenter") }
 
     val actions: Observable<PresenterAction> = emitter.hide()
 
@@ -49,16 +51,21 @@ class ConfirmPinPresenter(
             .filter {
                 it.viewId == R.id.continueButton
             }
+            .observeOn(Schedulers.io())
             .flatMapSingle {
                 onboardingDataSource
             }
             .filter { onboardingData ->
                 val isSamePin = onboardingData.pin == viewModel.pin.get().toString()
-                if (!isSamePin) viewModel.setPinConfirmationError()
-                isSamePin
+                isSamePin.also {
+                    if (!it) viewModel.setPinConfirmationError()
+                }
             }
-            .doOnNext { emitter.onNext(GoToCreatingAccountAction()) }
-            .subscribe()
+            .map { GoToCreatingAccountAction() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(emitter::onNext) {
+                logger.error("Failed to continue from pin confirmation", it)
+            }
             .disposeWith(disposables)
     }
 

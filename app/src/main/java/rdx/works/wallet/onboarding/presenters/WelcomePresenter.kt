@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import rdx.works.wallet.R
+import rdx.works.wallet.core.Logger
 import rdx.works.wallet.core.mvvm.DisposablePresenter
 import rdx.works.wallet.core.mvvm.PresenterAction
 import rdx.works.wallet.core.mvvm.UiEvent
@@ -17,6 +18,7 @@ class WelcomePresenter(
 
     private val disposables = CompositeDisposable()
     private val emitter = PublishSubject.create<PresenterAction>()
+    private val logger by lazy { Logger("WelcomePresenter") }
 
     val actions: Observable<PresenterAction> = emitter.hide()
 
@@ -26,8 +28,11 @@ class WelcomePresenter(
             .filter {
                 it.viewId == R.id.continueButton
             }
-            .subscribe {
-                emitter.onNext(GoToTermsOfServiceAction())
+            .map {
+                GoToTermsOfServiceAction()
+            }
+            .subscribe(emitter::onNext) {
+                logger.error("Failed to continue from welcome", it)
             }
             .disposeWith(disposables)
     }

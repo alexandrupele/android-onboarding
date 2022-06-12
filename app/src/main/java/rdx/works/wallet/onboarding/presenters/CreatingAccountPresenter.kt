@@ -9,6 +9,7 @@ import rdx.works.wallet.core.Logger
 import rdx.works.wallet.core.mvvm.DisposablePresenter
 import rdx.works.wallet.core.mvvm.PresenterAction
 import rdx.works.wallet.core.mvvm.disposeWith
+import rdx.works.wallet.core.rx.toObservable
 import rdx.works.wallet.onboarding.actions.GoToDashboardAction
 import rdx.works.wallet.onboarding.utils.CreateAccountPerformer
 import java.util.concurrent.TimeUnit
@@ -29,15 +30,15 @@ class CreatingAccountPresenter(
         Observable
             .timer(FAKE_LOADING_TIME_IN_SECONDS, TimeUnit.SECONDS)
             .observeOn(Schedulers.io())
-            .flatMapCompletable {
-                createAccountPerformer.createAccount()
+            .flatMap {
+                createAccountPerformer
+                    .createAccount()
+                    .toObservable(GoToDashboardAction())
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                emitter.onNext(GoToDashboardAction())
-            }, {
+            .subscribe(emitter::onNext) {
                 logger.error("Failed to create account", it)
-            })
+            }
             .disposeWith(disposables)
     }
 
