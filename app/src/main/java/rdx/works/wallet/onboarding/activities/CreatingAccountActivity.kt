@@ -21,6 +21,8 @@ class CreatingAccountActivity : RadixActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        animateOpeningTransition()
+
         with(presenter) {
             register(lifecycle)
             actions.subscribe(::handlePresenterAction)
@@ -28,6 +30,8 @@ class CreatingAccountActivity : RadixActivity() {
 
         setTitle(R.string.creating_account_title)
     }
+
+    override fun onBackPressed() = Unit
 
     private fun handlePresenterAction(action: PresenterAction) {
         when (action) {

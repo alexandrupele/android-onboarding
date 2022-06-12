@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import org.koin.androidx.scope.ScopeActivity
+import rdx.works.wallet.R
 import rdx.works.wallet.core.mvvm.UiEvent
 
 abstract class RadixActivity : ScopeActivity() {
@@ -49,5 +50,13 @@ abstract class RadixActivity : ScopeActivity() {
             }
             viewUiEventDisposables.addAll(disposable)
         }
+    }
+
+    protected open fun animateOpeningTransition() {
+        overridePendingTransition(R.anim.enter_direction_left, R.anim.exit_direction_left)
+    }
+
+    protected open fun animateClosingTransition() {
+        overridePendingTransition(R.anim.enter_direction_right, R.anim.exit_direction_right)
     }
 }

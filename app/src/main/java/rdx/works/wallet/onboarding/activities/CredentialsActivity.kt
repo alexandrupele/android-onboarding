@@ -3,6 +3,7 @@ package rdx.works.wallet.onboarding.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import io.reactivex.rxjava3.core.Observable
 import org.koin.core.parameter.parametersOf
@@ -33,6 +34,10 @@ class CredentialsActivity : RadixActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        animateOpeningTransition()
+
+        setTitle(R.string.credentials_title)
+
         binding = DataBindingUtil.bind(findViewById(R.id.rootView))!!
         binding.model = viewModel
 
@@ -40,8 +45,17 @@ class CredentialsActivity : RadixActivity() {
             register(lifecycle)
             actions.subscribe(::handlePresenterAction)
         }
+    }
 
-        setTitle(R.string.credentials_title)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                animateClosingTransition()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun collectViewUiEventsGenerators(): Array<Observable<out UiEvent>> = arrayOf(
@@ -49,6 +63,11 @@ class CredentialsActivity : RadixActivity() {
         binding.password.changeEvents(),
         binding.continueButton.click()
     )
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        animateClosingTransition()
+    }
 
     private fun handlePresenterAction(action: PresenterAction) {
         when (action) {

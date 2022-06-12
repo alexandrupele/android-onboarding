@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import io.reactivex.rxjava3.core.Observable
 import org.koin.core.parameter.parametersOf
@@ -35,6 +34,10 @@ class TermsOfServiceActivity : RadixActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        animateOpeningTransition()
+
+        setTitle(R.string.terms_of_service_title)
+
         binding = DataBindingUtil.bind(findViewById(R.id.rootView))!!
         binding.model = viewModel
 
@@ -42,15 +45,13 @@ class TermsOfServiceActivity : RadixActivity() {
             register(lifecycle)
             actions.subscribe(::handlePresenterAction)
         }
-
-        setTitle(R.string.terms_of_service_title)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this)
+                finish()
+                animateClosingTransition()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -62,8 +63,13 @@ class TermsOfServiceActivity : RadixActivity() {
         binding.continueButton.click()
     )
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        animateClosingTransition()
+    }
+
     private fun handlePresenterAction(action: PresenterAction) {
-        when(action) {
+        when (action) {
             is GoToCredentialsAction -> CredentialsActivity.launch(this)
         }
     }
