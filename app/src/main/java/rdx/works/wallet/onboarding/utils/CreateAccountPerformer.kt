@@ -21,7 +21,8 @@ class CreateAccountPerformer(
                     lastName = it.lastName!!,
                     password = it.password!!,
                     pin = it.pin!!,
-                    email = it.email!!
+                    email = it.email!!,
+                    phoneNumber = it.phoneNumber!!
                 )
             }
             .flatMapCompletable {

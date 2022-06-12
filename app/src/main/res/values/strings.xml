@@ -39,5 +39,6 @@
 
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_greeting">Welcome %1$s %2$s</string>
+    <string name="dashboard_contact_details">E-mail address: %1$s\nPhone number: %2$s</string>
     <string name="dashboard_menu_sign_out">Sign Out</string>
 </resources>
