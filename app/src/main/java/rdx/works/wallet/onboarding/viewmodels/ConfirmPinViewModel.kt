@@ -23,6 +23,7 @@ class ConfirmPinViewModel(private val resources: Resources) {
     }
 
     fun clearPinConfirmationError() {
+        errorText.set(null)
         errorEnabled.set(false)
     }
 
